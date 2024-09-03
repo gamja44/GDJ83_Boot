@@ -8,7 +8,7 @@ public class Pager {
 	//몇페이지씩 볼건지 perpager
 	private Long perPage=10L;
 	private Long startRow;
-	private Long page;
+	private Long page=1L;
 	
 	private String kind;
 	private String search;

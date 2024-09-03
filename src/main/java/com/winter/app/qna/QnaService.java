@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.winter.app.util.Pager;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class QnaService {
 	
 	@Autowired
@@ -18,5 +21,21 @@ public class QnaService {
 		
 		return qnaMapper.getList(pager);
 	}
+	
+	public int add(QnaVO qnaVO)throws Exception{
+		log.info("================insert before boardNum: {} ", qnaVO.getBoardNum());
+		int result=qnaMapper.add(qnaVO);
+		log.info("================insert after boardNum: {} ", qnaVO.getBoardNum());
+		result = qnaMapper.refUpdate(qnaVO);
+		
+		return result;
+	}
+	
+	public QnaVO getDetail(QnaVO qnaVO) throws Exception{
+		return qnaMapper.getDetail(qnaVO);
+	}
+	
+	
+	
 	
 }

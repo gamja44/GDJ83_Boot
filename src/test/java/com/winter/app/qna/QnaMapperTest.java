@@ -16,15 +16,24 @@ class QnaMapperTest {
 	@Autowired
 	private QnaMapper qnaMapper;
 	
+	@Test
+	void getDetailTest() throws Exception{
+		QnaVO qnaVO = new QnaVO();
+		qnaVO.setBoardNum(110L);
+		qnaVO = qnaMapper.getDetail(qnaVO);
+		
+		assertNotNull(qnaVO);
+	}
+	
 	//test개발주도방식을 사용해보기위한 메서드
 //	@Test
 //	void addTest() throws Exception{
 //		for(int i=4;i<110;i++) {
 //		
 //			QnaVO qnaVO = new QnaVO();
-//			qnaVO.setBoardContents("c3"+1);
-//			qnaVO.setBoardTitle("t3"+1);
-//			qnaVO.setBoardWriter("w3"+1);
+//			qnaVO.setBoardContents("c3"+i);
+//			qnaVO.setBoardTitle("t3"+i);
+//			qnaVO.setBoardWriter("w3"+i);
 //			qnaVO.setRef((long)i);
 //			qnaVO.setStep(0L);
 //			qnaVO.setDepth(0L);
