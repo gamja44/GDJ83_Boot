@@ -8,10 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.winter.app.qna.QnaMapper;
+import com.winter.app.qna.QnaVO;
+
 @SpringBootTest
 class NoticeMapperTest {
+	
 	@Autowired
 	private NoticeMapper noticeMapper;
+	
 	
 	@Test
 	void getListTest()throws Exception {
@@ -23,5 +28,6 @@ class NoticeMapperTest {
 		
 		assertNotEquals(0, ar.size());
 	}
+	
 
 }
