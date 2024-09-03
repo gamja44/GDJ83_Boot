@@ -25,6 +25,8 @@ public class QnaController {
 	
 	@GetMapping("list")
 	public void getList(Pager pager, Model model)throws Exception{
+		//Pager pager = new Pager(); 매개변수의 의미
+		
 		List<QnaVO> ar = qnaService.getList(pager);
 		model.addAttribute("list", ar);
 		model.addAttribute("pager", pager);
@@ -44,8 +46,9 @@ public class QnaController {
 	public void getDetail(QnaVO qnaVO, Model model) throws Exception{
 		qnaVO = qnaService.getDetail(qnaVO);
 		model.addAttribute("vo", qnaVO);
-		
 	}
+	
+	
 	
 	
 }
