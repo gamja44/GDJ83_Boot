@@ -25,6 +25,7 @@ public class QnaController {
 	
 	@Autowired
 	private QnaService qnaService;
+	
 	@Value("${board.qna}")
 	private String board;
 	
@@ -59,9 +60,6 @@ public class QnaController {
 	public void getDetail(QnaVO qnaVO, Model model) throws Exception{
 		qnaVO = qnaService.getDetail(qnaVO);
 		model.addAttribute("vo", qnaVO);
-	}
-	
-	
-	
+	}	
 	
 }

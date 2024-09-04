@@ -19,11 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 public class QnaService {
 	
 	@Autowired
-	private QnaMapper qnaMapper;	
+	private QnaMapper qnaMapper;
+	
 	@Value("${app.upload}")
 	private String upload;
+	
 	@Value("${board.qna}")
 	private String name;	
+	
 	@Autowired
 	private FileManager fileManager;
 		
@@ -34,10 +37,10 @@ public class QnaService {
 	}
 	
 	public int add(QnaVO qnaVO, MultipartFile [] attaches)throws Exception{
-		log.info("================insert before boardNum: {} ", qnaVO.getBoardNum());
-		//int result=qnaMapper.add(qnaVO);
-		log.info("================insert after boardNum: {} ", qnaVO.getBoardNum());
-		//result = qnaMapper.refUpdate(qnaVO);
+		//log.info("================insert before boardNum: {} ", qnaVO.getBoardNum());
+		int result=qnaMapper.add(qnaVO);
+		//log.info("================insert after boardNum: {} ", qnaVO.getBoardNum());
+		result = qnaMapper.refUpdate(qnaVO);
 		
 		//파일을 HDD에 저장 후 DB에 정보를 추가
 		for(MultipartFile mf : attaches) {
@@ -45,8 +48,15 @@ public class QnaService {
 				continue;
 			}
 			 String fileName= fileManager.fileSave(upload+name, mf); //D:/upload/qna
-				log.info("저장된 파일명 : {}",fileName);
+			 //log.info("저장된 파일명 : {}",fileName);
+			 QnaFileVO qnaFileVO = new QnaFileVO();
+			 qnaFileVO.setFileName(fileName);
+			 qnaFileVO.setOriName(mf.getOriginalFilename());
+			 qnaFileVO.setBoardNum(qnaVO.getBoardNum());
+			 
+			 result = qnaMapper.addFile(qnaFileVO);
 		}
+		
 		
 		return 0;
 	}

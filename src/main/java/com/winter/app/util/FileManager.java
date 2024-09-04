@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Component
 public class FileManager {
 	
@@ -22,16 +24,11 @@ public class FileManager {
 		
 		//파일을 HDD에 저장
 		file = new File(file, fileName);
+		log.info("file", file.getPath());
 		multipartFile.transferTo(file);
 		
 		//저장된 파일명 리턴
 		return fileName;
 	}
-	
-	
-	
-	
-	
-	
 	
 }
