@@ -59,9 +59,13 @@
  		<collection property="ar" javaType="java.util.List" ofType="QnaFileVO">
  			<id property="fileNum" column="FILE_NUM"/>
  			<result property="fileName" column="FILE_NAME"/>
- 			<result property="boardNum" column="BOARD_NUM"/>
+ 			<result property="oriName" column="ORI_NAME"/>
  		</collection>
  	</resultMap>
+ 	
+ 	<select id="getFileDetail" parameterType="QnaFileVO" resultType="QnaFileVO">
+ 		SELECT * FROM QNAFILES WHERE FILE_NUM=#{fileNum}
+ 	</select>
  	
  	<insert id="addFile" parameterType="QnaFileVO">
  		INSERT INTO QNAFILES(FILE_NAME, ORI_NAME, BOARD_NUM)

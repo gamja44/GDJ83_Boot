@@ -13,9 +13,15 @@
 	<h3>${vo.boardWriter}</h3>
 	<h3>${vo.boardContents}</h3>
 	
+	<%-- <c:forEach items="${vo.ar}" var="f">
+		<img src="/files/${board}/${f.fileName}">
+		<a href="./fileDown?fileNum=${f.fileNum}">${f.oriName}</a>
+		<h3>${f.fileName}</h3>
+	</c:forEach> --%>
+	
 	<c:forEach items="${vo.ar}" var="f">
 		<img src="/files/${board}/${f.fileName}">
-		<%-- <h3>${f.fileName}</h3> --%>
+		<a href="./fileDown?fileNum=${f.fileNum}">${f.oriName}</a>
 	</c:forEach>
 </body>
 </html>

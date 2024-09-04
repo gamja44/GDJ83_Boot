@@ -62,4 +62,17 @@ public class QnaController {
 		model.addAttribute("vo", qnaVO);
 	}	
 	
+	@GetMapping("fileDown")
+	public String fileDown(QnaFileVO qnaFileVO, Model model)throws Exception{
+		qnaFileVO = qnaService.getFileDetail(qnaFileVO);
+		model.addAttribute("file", qnaFileVO);
+		
+		//빈의 이름은 클래스명의 소문자로 바꾼것이 빈의 이름이다
+		//빈의 이름이 fileDownView를 빈의 객체를 만들어서 보내자
+		//view가 객체의 이름이 된다
+		//같은 이름이 없으면 그 다음 jsp경로를 찾으러 간다
+		return "fileDownView";
+	}
+	
+	
 }
