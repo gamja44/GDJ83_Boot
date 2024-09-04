@@ -46,7 +46,9 @@ public class QnaController {
 		//return "redirect:../";
 	}
 	@GetMapping("add")
-	public void add()throws Exception{}
+	public void add()throws Exception{
+		
+	}
 	
 	@PostMapping("add")
 	public String add(QnaVO qnaVO, MultipartFile[] attaches) throws Exception{

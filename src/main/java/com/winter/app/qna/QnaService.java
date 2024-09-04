@@ -19,13 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 public class QnaService {
 	
 	@Autowired
-	private QnaMapper qnaMapper;
-	
+	private QnaMapper qnaMapper;	
 	@Value("${app.upload}")
 	private String upload;
 	@Value("${board.qna}")
-	private String name;
-	
+	private String name;	
 	@Autowired
 	private FileManager fileManager;
 		

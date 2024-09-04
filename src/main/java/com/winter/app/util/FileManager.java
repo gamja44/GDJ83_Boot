@@ -13,11 +13,11 @@ public class FileManager {
 		//어디에 저장?
 		File file = new File(path);
 		
-		if(file.exists()) {
-			file.mkdir();
+		if(!file.exists()) {
+			file.mkdirs();
 		}
 		
-		//저장할 파일명 생성
+		//저장할 파일명 생성(중복x)
 		String fileName = UUID.randomUUID().toString()+"_"+multipartFile.getOriginalFilename();
 		
 		//파일을 HDD에 저장
