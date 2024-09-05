@@ -42,6 +42,11 @@ public class QnaService {
 		//log.info("================insert after boardNum: {} ", qnaVO.getBoardNum());
 		result = qnaMapper.refUpdate(qnaVO);
 		
+		if(result==1) {
+			throw new Exception();
+		}
+		
+		
 		//파일을 HDD에 저장 후 DB에 정보를 추가
 		for(MultipartFile mf : attaches) {
 			if(mf==null || mf.isEmpty()) {
