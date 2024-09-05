@@ -35,7 +35,7 @@ public class QnaController {
 		return this.board;
 	}
 		
-	@GetMapping("list")
+	@GetMapping("list")//return "qna/list"
 	public void getList(Pager pager, Model model)throws Exception{
 		//Pager pager = new Pager(); 매개변수의 의미
 		
@@ -56,7 +56,7 @@ public class QnaController {
 		int result = qnaService.add(qnaVO, attaches);
 		return "redirect:./list";
 	}
-	@GetMapping("detail")
+	@GetMapping("detail")//return "qna.detail"
 	public void getDetail(QnaVO qnaVO, Model model) throws Exception{
 		qnaVO = qnaService.getDetail(qnaVO);
 		model.addAttribute("vo", qnaVO);
@@ -71,7 +71,8 @@ public class QnaController {
 		//빈의 이름이 fileDownView를 빈의 객체를 만들어서 보내자
 		//view가 객체의 이름이 된다
 		//같은 이름이 없으면 그 다음 jsp경로를 찾으러 간다
-		return "fileDownView";
+		return "fileDownView"; //FileDownView클래스로 간다
+		
 	}
 	
 	

@@ -18,13 +18,14 @@ import com.winter.app.qna.QnaFileVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
+//beanNameViewResolve
 @Component
 public class FileDownView extends AbstractView{
 	
 	@Value("${app.upload}")
 	private String path;//D:/upload/
 	
+	//private AbstractView av;	
 	
 	@Override
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,

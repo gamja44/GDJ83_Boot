@@ -27,6 +27,7 @@ public class FileConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		//<resource mapping="/resources/**" location="/resources/" />
 		//<resource mapping="/files/**" location="D:/upload/" />
+		//파일을 가져올때 쓰는 파일
 		log.info("=================================================================");
 		log.info(url);
 		log.info(file);
