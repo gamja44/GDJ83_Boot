@@ -25,22 +25,7 @@
 				  	<form:errors path="username"></form:errors>
 				  </div>
 			  </div>
-			  
-			   <div class="mb-3">
-				    <label for="password" class="form-label">Password</label>
-				    <form:password cssClass="form-control" id="password" path="password" />
-				    <div>
-				    	<form:errors path="password"></form:errors>
-				    </div>				    
-				  </div>
-			 <!--  사용자가 커스터마이징 -->
-			  <div class="mb-3">
-				    <label for="passwordCheck" class="form-label">Password</label>
-				    <form:password cssClass="form-control" id="password" path="passwordCheck" />
-				    <div>
-				    	<form:errors path="passwordCheck"></form:errors>
-				    </div>	
-				  </div>
+	
 			  <div class="mb-3">
 			    <label for="name" class="form-label">NAME</label>
 			    <form:input type="text" cssClass="form-control" id="name" path="name"></form:input>

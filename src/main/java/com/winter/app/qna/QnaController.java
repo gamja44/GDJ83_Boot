@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.util.Pager;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -36,7 +38,7 @@ public class QnaController {
 	}
 		
 	@GetMapping("list")//return "qna/list"
-	public void getList(Pager pager, Model model)throws Exception{
+	public String getList(Pager pager, Model model)throws Exception{
 		//Pager pager = new Pager(); 매개변수의 의미
 		
 		List<QnaVO> ar = qnaService.getList(pager);
@@ -44,15 +46,21 @@ public class QnaController {
 		model.addAttribute("pager", pager);
 		log.info("Pager : {} : {}", pager, pager.getKind());
 		
-		//return "redirect:../";
+		return "qna/list";
 	}
 	@GetMapping("add")
-	public void add()throws Exception{
-		
+	public void add(@ModelAttribute QnaVO qnaVO)throws Exception{
+		//@ModelAttributed이게 매개변수에 생략되어있다
 	}
 	
 	@PostMapping("add")
-	public String add(QnaVO qnaVO, MultipartFile[] attaches) throws Exception{
+	public String add(@Valid QnaVO qnaVO, BindingResult bindingResult, MultipartFile[] attaches) throws Exception{
+		//@Valid QnaVO qnaVO 자동으로 qnaVO를 검증해준다
+		//검증하고 bindingResult결과값을 여기에 담는다
+		if(bindingResult.hasErrors()) {
+			log.error("Writer가 비어있음");
+			return "qna/add";
+		}	
 		int result = qnaService.add(qnaVO, attaches);
 		return "redirect:./list";
 	}
