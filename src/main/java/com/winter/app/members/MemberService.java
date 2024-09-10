@@ -4,17 +4,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService{
 	
 	@Autowired
 	private MemberMapper memberMapper;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	//눈에 안보이는 필터에서 작용
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+		try {
+			memberVO=memberMapper.detail(memberVO);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return memberVO;
+	}
+	
 	
 	public int add(MemberVO memberVO)throws Exception{
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		int result = memberMapper.add(memberVO);
 		
 		Map<String, Object> map = new HashMap<>();

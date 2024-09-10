@@ -12,4 +12,6 @@ public interface MemberMapper {
 	public MemberVO detail(MemberVO memverVO) throws Exception;
 	 
 	public int addRole(Map<String, Object> map)throws Exception;
+	
+	public int pwUpdate(MemberVO memberVO)throws Exception;
 }
