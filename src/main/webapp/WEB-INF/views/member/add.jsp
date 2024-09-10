@@ -20,7 +20,7 @@
 			<form:form method="post" modelAttribute="memberVO">
 			  <div class="mb-3">
 			    <label for="username" class="form-label">ID</label>
-			    <form:input type="text" cssClass="form-control" id="username" path="username"></form:input>
+			    <form:input cssClass="form-control" id="username" path="username"></form:input>
 				  <div>
 				  	<form:errors path="username"></form:errors>
 				  </div>
@@ -43,21 +43,21 @@
 				  </div>
 			  <div class="mb-3">
 			    <label for="name" class="form-label">NAME</label>
-			    <form:input type="text" cssClass="form-control" id="name" path="name"></form:input>
+			    <form:input cssClass="form-control" id="name" path="name"></form:input>
 			    <div>
 				  	<form:errors path="name"></form:errors>
 				 </div>
 			  </div>
 			  <div class="mb-3">
 			    <label for="email" class="form-label">EMAIL</label>
-			    <form:input type="text" cssClass="form-control" id="email" path="email"></form:input>
+			    <form:input cssClass="form-control" id="email" path="email"></form:input>
 			    <div>
 				  	<form:errors path="email"></form:errors>
 				  </div>
 			  </div>
 			  <div class="mb-3">
 			    <label for="birth" class="form-label">BIRTH</label>
-			    <form:input type="birth" class="form-control" id="birth" path="birth"></form:input>
+			    <form:input cssClass="form-control" id="birth" path="birth"></form:input>
 			    <div>
 				  	<form:errors path="birth"></form:errors>
 				 </div>
