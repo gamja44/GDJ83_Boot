@@ -1,13 +1,21 @@
 package com.winter.app.Schedules;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.winter.app.qna.QnaMapper;
+import com.winter.app.qna.QnaService;
+import com.winter.app.qna.QnaVO;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class TestSchedule {
+	
+	@Autowired
+	private QnaMapper qnaMapper;
 
 	
 	//@Scheduled(fixedDelayString = "1000", initialDelay = 2000)
@@ -22,9 +30,22 @@ public class TestSchedule {
 		log.error("================schecdule Test====================");
 		
 	}
-	@Scheduled(cron = "0 50 * * * *")
+	//@Scheduled(cron = "*/5 * * * * *")
 	public void test3()throws Exception {
 		log.error("======schecdule Test======");
-		
+		QnaVO qnaVO = new QnaVO();
+		qnaVO.setBoardWriter("test");
+		qnaVO.setBoardTitle("title");
+		qnaVO.setBoardContents("contents");
+		qnaMapper.add(qnaVO);
+		qnaMapper.refUpdate(qnaVO);
 	}
 }
+
+
+
+
+
+
+
+
