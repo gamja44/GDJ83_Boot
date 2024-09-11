@@ -1,5 +1,8 @@
 package com.winter.app.configs.security;
 
+import java.net.URLEncoder;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,10 +12,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity //스프링에서 만든 자체적 security
 @Configuration
 public class SecurityConfig {
+	
+	@Autowired
+	private SecurityLoginSuccessHandler handler;
+	@Autowired
+	private SecurityLoginFailHandler failHandler;
 	
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() {
@@ -30,6 +39,9 @@ public class SecurityConfig {
 	}
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity security)throws Exception {
+		
+		String message = URLEncoder.encode("로그인실패", "UTF-8");
+		
 		security
 				.cors() //fetch나 axios를 사용했을때 에러메세지, 같은 서버내에서 발급을 공유
 				.and()
@@ -53,14 +65,28 @@ public class SecurityConfig {
 			.formLogin(
 					login -> 
 						login
+						//개발자가 만든 로그인 페이지 사용
 							.loginPage("/member/login") //로그인시url주소를 보내줘
-							.defaultSuccessUrl("/")
-							.failureUrl("/member/login")
+							//.defaultSuccessUrl("/")
+							.successHandler(handler)
+							//.failureUrl("/member/login?message="+message)
+							.failureHandler(failHandler)
 							//파라미터이름이 username이 아니라 'id'로 사용한 경우
 							//.usernameParameter("id")
 							//파라미터이름이 password가 아니라 'pw'로 사용한 경우
 							//.passwordParameter("pw")
 							.permitAll()
+					)
+			//logout 설정
+			.logout(
+					logout -> 
+					    //requestMather("url"), 로그아웃 url 지정
+						logout
+							  .logoutUrl("/member/logout")//로그아웃 url 지정, 둘 중 하나만 사용가능
+							  //.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+							  .logoutSuccessUrl("/")
+							  .invalidateHttpSession(true) //true면 session만료, false session 세션 만료x
+							  //.deleteCookies("쿠키삭제하고싶을때 사용") "JSESSIONID"
 					)
 			
 			;

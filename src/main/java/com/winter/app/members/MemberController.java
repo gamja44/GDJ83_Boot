@@ -1,7 +1,13 @@
 package com.winter.app.members;
 
+import java.util.Enumeration;
+
 import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +20,8 @@ import com.winter.app.validate.MemberAddGroup;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
@@ -36,7 +43,7 @@ public class MemberController {
 		if(check) {
 			return "member/add";
 		}
-		//int result = memberService.add(memberVO);
+		int result = memberService.add(memberVO);
 //		if(bindingResult.hasErrors()) {
 //			return "member/add";
 //		}	
@@ -46,8 +53,22 @@ public class MemberController {
 	
 	
 	@GetMapping("login")
-	public void login()throws Exception{
+	public String login(String message, Model model)throws Exception{
+		model.addAttribute("message", message);
 		
+		SecurityContext context = SecurityContextHolder.getContext();
+		log.info("context : {}", context);
+		
+		if(context == null) {
+			return "member/login";
+		}
+		String user = context.getAuthentication().getPrincipal().toString();
+		log.info("user : {}", user);
+		if(user.equals("anonymousUser")) {
+			return "member/login";
+		}
+		
+		return "redirect:/";
 	}
 //	
 //	@PostMapping("login")
@@ -70,9 +91,26 @@ public class MemberController {
 	}
 	//mypage
 	@GetMapping("mypage")
-	public void mypage()throws Exception {
+	public void mypage(HttpSession session)throws Exception {
 		//session에 있는 내용을 꺼내쓰기
+		Enumeration<String> en = session.getAttributeNames();
+		while(en.hasMoreElements()) {
+			String name = en.nextElement();
+			log.info("Name : {}", name); //SPRING_SECURITY_CONTEXT
+		}
+		SecurityContextImpl sc = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
+		//log.info("obj : {}", obj.getClass()); //class org.springframework.security.core.context.SecurityContextImpl
+		log.info("SecurityContextImpl : {}", sc);
 		
+		SecurityContext context = SecurityContextHolder.getContext();
+		log.info("context : {}", context);
+		
+		Authentication authentication= context.getAuthentication();
+		log.info("Authentication : {}", authentication);
+		
+		 MemberVO memberVO = (MemberVO)authentication.getPrincipal();
+		 log.info("MemberVO: {}", memberVO);
+		 log.info("Name : {}", authentication.getName());
 	}
 	//update
 	@PostMapping("update")

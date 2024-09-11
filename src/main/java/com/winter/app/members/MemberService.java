@@ -12,28 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 @Service
-public class MemberService implements UserDetailsService{
+public class MemberService {
 	
 	@Autowired
 	private MemberMapper memberMapper;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	//눈에 안보이는 필터에서 작용
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		MemberVO memberVO = new MemberVO();
-		memberVO.setUsername(username);
-		try {
-			memberVO=memberMapper.detail(memberVO);
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-		return memberVO;
-	}
 	
 	
 	public int add(MemberVO memberVO)throws Exception{

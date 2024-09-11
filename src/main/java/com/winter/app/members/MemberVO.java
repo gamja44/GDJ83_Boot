@@ -25,7 +25,7 @@ public class MemberVO implements UserDetails{
 	@NotBlank(groups = {MemberAddGroup.class, MemberUpdateGroup.class})
 	private String username;
 	
-	@Pattern(groups = {MemberAddGroup.class}, regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*\\\\W)(?=\\\\S+$).{6,12}")
+	//@Pattern(groups = {MemberAddGroup.class}, regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*\\\\W)(?=\\\\S+$).{6,12}")
 	@NotBlank(groups = {MemberAddGroup.class})
 	private String password;
 	
@@ -55,20 +55,24 @@ public class MemberVO implements UserDetails{
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
+		//return false; authentication.AccountExpiredException: 사용자 계정의 유효 기간이 만료 되었습니다.
 		return true;
 	}
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
+		//return false; .authentication.LockedException: 사용자 계정이 잠겨 있습니다
 		return true;
 	}
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
+		//return false; .authentication.CredentialsExpiredException: 자격 증명 유효 기간이 만료되었습니다.
 		return true;
 	}
 	
 	public boolean isEnabled() {
+		//return false; authentication.DisabledException: 유효하지 않은 사용자입니다.
 		return true;
 	}
 	
