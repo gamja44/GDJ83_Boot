@@ -11,6 +11,13 @@
 </head>
 <body>
 	<h1>관리자 페이지</h1>
-	<img alt="dog" src="/images/cat.jpg">
+	<img alt="dog" src="/images/dog.jpg">
+	
+	<script type="text/javascript">
+	alert('다른 사용자가 접속중');
+/* 	confirm('서비스'); */
+	location.href="/";
+	
+	</script>
 </body>
 </html>

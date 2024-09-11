@@ -29,6 +29,10 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@GetMapping("check")
+	public void check()throws Exception {
+		
+	}
 	
 	
 	//add

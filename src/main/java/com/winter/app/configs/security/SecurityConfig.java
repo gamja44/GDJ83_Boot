@@ -2,6 +2,7 @@ package com.winter.app.configs.security;
 
 import java.net.URLEncoder;
 
+import org.apache.catalina.valves.CrawlerSessionManagerValve;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.server.authentication.MaximumSessionsContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.winter.app.members.MemberUserService;
 
 @EnableWebSecurity //스프링에서 만든 자체적 security
 @Configuration
@@ -22,6 +26,8 @@ public class SecurityConfig {
 	private SecurityLoginSuccessHandler handler;
 	@Autowired
 	private SecurityLoginFailHandler failHandler;
+	@Autowired
+	private MemberUserService memberUserService;
 	
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() {
@@ -57,7 +63,7 @@ public class SecurityConfig {
 					.requestMatchers("/notice/list","/notice/detail").permitAll()
 					.requestMatchers("/notice/*").hasRole("ADMIN")
 					.requestMatchers("/manager/*").hasAnyRole("MANAGER", "ADMIN")
-					.requestMatchers("/member/add", "/member/login").permitAll()
+					.requestMatchers("/member/add", "/member/login","/member/check").permitAll()
 					.requestMatchers("/member/*").authenticated()
 					.anyRequest().permitAll()
 					)//.authorizeHttpRequests끝부분
@@ -87,6 +93,34 @@ public class SecurityConfig {
 							  .logoutSuccessUrl("/")
 							  .invalidateHttpSession(true) //true면 session만료, false session 세션 만료x
 							  //.deleteCookies("쿠키삭제하고싶을때 사용") "JSESSIONID"
+					)
+			//remember me
+			.rememberMe(
+					remember ->
+					    //Parameter 이름
+						remember.rememberMeParameter("rememberMe")
+						        .tokenValiditySeconds(60) //토큰의 유효시간
+						        //token에 생성시 값, 필수 값, 개발자가 값 설정, 키는 노출되면 안됨
+						        //토큰에 사용되는 값이고 이름은 개발자 마음대로 
+						        .key("rememberme") 
+						        //인증절차(로그인)진행할 userdetailService
+						        .userDetailsService(memberUserService)
+						        //로그인이 성공했을 경우 진행할 Handler
+						        .authenticationSuccessHandler(handler)
+						        .useSecureCookie(false)
+					)
+			//동시 세션
+			.sessionManagement(
+					sessionManager ->
+						sessionManager
+							//최대 허용 갯수, -1이면 무한대
+							.maximumSessions(1)
+							//false기존사용자만료, true 새로운사용자 인증 실패
+							.maxSessionsPreventsLogin(false)
+							//session이 만료되었을 경우 리다이렉트할 url
+							.expiredUrl("/member/check")
+							
+			
 					)
 			
 			;
