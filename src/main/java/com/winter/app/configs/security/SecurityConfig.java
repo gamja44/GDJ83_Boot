@@ -31,6 +31,9 @@ public class SecurityConfig {
 	@Autowired
 	private MemberUserService memberUserService;
 	
+	@Autowired
+	private SecurityLogoutSuccessHandler logoutSuccessHandler;
+	
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() {
 		//security에서 무시할 내용, 접근금지
@@ -91,9 +94,10 @@ public class SecurityConfig {
 					    //requestMather("url"), 로그아웃 url 지정
 						logout
 							  .logoutUrl("/member/logout")//로그아웃 url 지정, 둘 중 하나만 사용가능
-							  .logoutSuccessHandler(null)
+							  //.logoutSuccessHandler(null)
 							  //.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-							  .logoutSuccessUrl("/")
+							 .logoutSuccessHandler(logoutSuccessHandler)	
+							  //.logoutSuccessUrl("/")
 							  .invalidateHttpSession(true) //true면 session만료, false session 세션 만료x
 							  //.deleteCookies("쿠키삭제하고싶을때 사용") "JSESSIONID"
 					)

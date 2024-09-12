@@ -46,6 +46,10 @@ public class MemberVO implements UserDetails, OAuth2User{
 	//token 정보 저장
 	private Map<String, Object> attributes;
 	
+	private String accessToken;
+	
+	private String sns;
+	
 	
 	// OAuth2User의 오버라이딩
 	@Override
