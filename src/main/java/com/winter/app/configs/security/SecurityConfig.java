@@ -24,8 +24,10 @@ public class SecurityConfig {
 	
 	@Autowired
 	private SecurityLoginSuccessHandler handler;
+	
 	@Autowired
 	private SecurityLoginFailHandler failHandler;
+	
 	@Autowired
 	private MemberUserService memberUserService;
 	
@@ -89,6 +91,7 @@ public class SecurityConfig {
 					    //requestMather("url"), 로그아웃 url 지정
 						logout
 							  .logoutUrl("/member/logout")//로그아웃 url 지정, 둘 중 하나만 사용가능
+							  .logoutSuccessHandler(null)
 							  //.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
 							  .logoutSuccessUrl("/")
 							  .invalidateHttpSession(true) //true면 session만료, false session 세션 만료x
@@ -122,6 +125,17 @@ public class SecurityConfig {
 							
 			
 					)
+			// Social Login
+			//안에 null을 이따가 작성
+			.oauth2Login(
+					oauth2 ->
+						oauth2.userInfoEndpoint(
+								user -> user.userService(memberUserService)
+						)
+			)
+			
+			
+			
 			
 			;
 		return security.build();

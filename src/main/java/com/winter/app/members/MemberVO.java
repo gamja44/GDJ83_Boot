@@ -4,10 +4,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.winter.app.validate.MemberAddGroup;
 import com.winter.app.validate.MemberUpdateGroup;
@@ -20,7 +22,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class MemberVO implements UserDetails{
+public class MemberVO implements UserDetails, OAuth2User{
 	
 	@NotBlank(groups = {MemberAddGroup.class, MemberUpdateGroup.class})
 	private String username;
@@ -39,6 +41,20 @@ public class MemberVO implements UserDetails{
 	private Date birth;
 	private boolean enabled; //계정활성화여부
 	private List<RoleVO> vos; //롬복이 가진 목록(권한)
+	
+	//Oaut2User
+	//token 정보 저장
+	private Map<String, Object> attributes;
+	
+	
+	// OAuth2User의 오버라이딩
+	@Override
+	public Map<String, Object> getAttributes() {
+		// TODO Auto-generated method stub
+		return this.attributes;
+	}
+	
+	
 	
 	//? extends GrantedAuthority을 상속받는 자식타입이 ? 이다
 	@Override
@@ -75,5 +91,7 @@ public class MemberVO implements UserDetails{
 		//return false; authentication.DisabledException: 유효하지 않은 사용자입니다.
 		return true;
 	}
+	
+	
 	
 }
