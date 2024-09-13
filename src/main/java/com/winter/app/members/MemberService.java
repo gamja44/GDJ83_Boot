@@ -22,7 +22,12 @@ public class MemberService {
 	
 	
 	public int add(MemberVO memberVO)throws Exception{
+		//비번을 업데이트할 때 
+		
+		
+		
 		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+		
 		int result = memberMapper.add(memberVO);
 		
 		Map<String, Object> map = new HashMap<>();
