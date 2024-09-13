@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +44,7 @@ public class QnaController {
 	
 	
 				@GetMapping("list")//return "qna/list"
+				@CrossOrigin
 				//@ResponseBody
 				public List<QnaVO> getList(Pager pager)throws Exception{
 					//Pager pager = new Pager(); 매개변수의 의미
@@ -68,14 +72,20 @@ public class QnaController {
 		int result = qnaService.add(qnaVO, attaches);
 		return "redirect:./list";
 	}
-	//detail
-				@GetMapping("detail")//return "qna.detail"
-				public QnaVO getDetail(QnaVO qnaVO) throws Exception{
+	
+	
+				//detail
+				@GetMapping("detail/{boardNum}/{name}")//return "qna.detail"
+				public QnaVO getDetail(@PathVariable(name="boardNum") Long bn, @PathVariable String name,QnaVO qnaVO, Model model) throws Exception{
+					log.info("BoardNum : {}", bn);
+					log.info("Name : {}", name);
 					qnaVO = qnaService.getDetail(qnaVO);
 					
 					return qnaVO;
 				}	
 	
+				
+				
 	@GetMapping("fileDown")
 	public String fileDown(QnaFileVO qnaFileVO, Model model)throws Exception{
 		qnaFileVO = qnaService.getFileDetail(qnaFileVO);
