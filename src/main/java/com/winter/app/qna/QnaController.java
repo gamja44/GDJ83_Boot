@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.util.Pager;
@@ -20,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 
-@Controller
+@RestController
 @RequestMapping("/qna/*")
 @Slf4j
 public class QnaController {
@@ -36,18 +38,20 @@ public class QnaController {
 	public String getBoard() {
 		return this.board;
 	}
-		
-	@GetMapping("list")//return "qna/list"
-	public String getList(Pager pager, Model model)throws Exception{
-		//Pager pager = new Pager(); 매개변수의 의미
-		
-		List<QnaVO> ar = qnaService.getList(pager);
-		model.addAttribute("list", ar);
-		model.addAttribute("pager", pager);
-		log.info("Pager : {} : {}", pager, pager.getKind());
-		
-		return "qna/list";
-	}
+	
+	
+				@GetMapping("list")//return "qna/list"
+				//@ResponseBody
+				public List<QnaVO> getList(Pager pager)throws Exception{
+					//Pager pager = new Pager(); 매개변수의 의미
+					
+					List<QnaVO> ar = qnaService.getList(pager);
+					
+					//제이슨으로 내보내고싶은것을 먼저 리턴으로 돌려주고
+					return ar;
+					
+				}
+	
 	@GetMapping("add")
 	public void add(@ModelAttribute QnaVO qnaVO)throws Exception{
 		//@ModelAttributed이게 매개변수에 생략되어있다
@@ -65,11 +69,12 @@ public class QnaController {
 		return "redirect:./list";
 	}
 	//detail
-	@GetMapping("detail")//return "qna.detail"
-	public void getDetail(QnaVO qnaVO, Model model) throws Exception{
-		qnaVO = qnaService.getDetail(qnaVO);
-		model.addAttribute("vo", qnaVO);
-	}	
+				@GetMapping("detail")//return "qna.detail"
+				public QnaVO getDetail(QnaVO qnaVO) throws Exception{
+					qnaVO = qnaService.getDetail(qnaVO);
+					
+					return qnaVO;
+				}	
 	
 	@GetMapping("fileDown")
 	public String fileDown(QnaFileVO qnaFileVO, Model model)throws Exception{
